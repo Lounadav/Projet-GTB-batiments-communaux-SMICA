@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajout Batiment - SMICA</title>
+</head>
+<body>
+
+    <div class="app-container">
+        <header>
+            <div class="pill user-profile">
+                <div class="avatar"></div>
+                <div class="greeting">Bonjour , &lt;User&gt;</div>
+                <div class="logout-icon" onclick="window.location.href='index.html'" title="Retour à l'accueil">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="pill main-title">Ajout Batiment</div>
+
+            <img src="smica.png" alt="Logo SMICA" class="logo-image">
+        </header>
+
+        <main>
+            <div class="form-row">
+                <div class="form-group flex-large">
+                    <label>Type de batiment</label>
+                    <select class="input-style">
+                        <option value=""></option>
+                        <option value="bureau">Bureau</option>
+                        <option value="industrie">Industrie</option>
+                    </select>
+                </div>
+                <div class="form-group flex-small">
+                    <label>Photo du batiment</label>
+                    <div class="file-upload-wrapper">
+                        <input type="text" class="input-style" readonly>
+                        <svg class="upload-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group flex-large">
+                    <label>Adresse / Localisation</label>
+                    <input type="text" class="input-style">
+                </div>
+                <div class="form-group flex-small">
+                    <label>Nombre d'étages /Zones</label>
+                    <input type="text" class="input-style">
+                </div>
+            </div>
+
+            <div class="row-centered">
+                <div class="form-group">
+                    <label>Nom du batiment</label>
+                    <input type="text" class="input-style">
+                </div>
+            </div>
+
+            <div class="action-row">
+                <button class="btn-submit">Enregistrer</button>
+                
+                <div class="status-container">
+                    <label>Status</label>
+                    <div class="status-pill">
+                        <svg class="status-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <svg class="status-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            © 2026 Groupe GTB - Tous droits réservés
+        </footer>
+    </div>
+</body>
+<script src="app.js"></script>
+</html>

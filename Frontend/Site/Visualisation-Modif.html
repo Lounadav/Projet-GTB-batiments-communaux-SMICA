@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualisation et Modification - SMICA</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #635762; min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; position: relative; color: #333; padding: 30px 15px; }
+        :root { --primary-orange: #b85b31; --bg-white: #ffffff; --bg-dark: #635762; }
+        footer { padding: 20px 0; color: white; font-size: 0.9rem; font-weight: 500; text-align: center; width: 100%; margin-top: auto; }
+
+        .title-card { background-color: var(--bg-white); padding: 12px 50px; border-radius: 50px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); text-align: center; }
+        .title-card h1 { color: var(--primary-orange); font-size: 1.8rem; font-weight: 700; margin: 0; }
+        .logo-image { width: 110px; height: auto; border-radius: 20px; background-color: white; padding: 8px 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+        .dashboard-header { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1000px; margin-bottom: 20px; }
+        .user-pill { background-color: var(--bg-white); border-radius: 50px; display: flex; align-items: center; padding: 5px 20px 5px 5px; gap: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .user-avatar { width: 40px; height: 40px; background-color: #d9d9d9; border-radius: 50%; }
+        .user-greeting-text { color: var(--primary-orange); font-weight: 700; font-size: 1rem; }
+        .logout-icon { color: var(--primary-orange); display: flex; align-items: center; cursor: pointer; }
+        .logout-icon svg { width: 22px; height: 22px; fill: currentColor; }
+
+        .dashboard-card { background-color: var(--bg-white); padding: 30px; border-radius: 40px; width: 100%; max-width: 1000px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); display: flex; flex-direction: column; gap: 20px; }
+
+        .selection-container { display: flex; justify-content: center; margin-bottom: 10px; width: 100%; }
+        .select-group { display: flex; align-items: center; gap: 15px; }
+        .select-group label { color: var(--primary-orange); font-weight: bold; font-size: 1.1rem; }
+        .custom-select { background-color: #605761; color: white; border: 2px solid #b8542b; border-radius: 20px; padding: 10px 40px 10px 20px; font-size: 1rem; font-weight: bold; outline: none; cursor: pointer; appearance: none; -webkit-appearance: none; min-width: 250px; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg width='14' height='10' viewBox='0 0 14 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L7 8L13 1' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 15px center; background-size: 12px; }
+
+        .widgets-container { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+        .widget-box { flex: 1; text-align: center; display: flex; flex-direction: column; justify-content: center; gap: 10px; }
+        .dark-widget { background-color: #635762; border-radius: 20px; padding: 15px; color: white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .dark-widget h2 { font-size: 1.1rem; font-weight: 500; }
+        
+        .temp-display { display: flex; justify-content: center; align-items: center; gap: 15px; }
+        .temp-display p { font-size: 1.2rem; font-weight: 600; margin: 0; }
+        .temp-input { background: white; color: #b85b31 !important; border: none; border-radius: 30px; width: 65px; padding: 6px; font-weight: bold; font-size: 1.1rem; text-align: center; outline: none; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .temp-input::-webkit-outer-spin-button, .temp-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        
+        .middle-widget h2 { color: var(--primary-orange); font-size: 1.2rem; font-weight: 700; margin-bottom: 5px; }
+        .toggle-switch { background-color: #635762; width: 80px; height: 36px; border-radius: 40px; margin: 0 auto; position: relative; cursor: pointer; transition: background-color 0.3s ease; box-shadow: inset 0 2px 5px rgba(0,0,0,0.2); }
+        .toggle-circle { background-color: white; width: 28px; height: 28px; border-radius: 50%; position: absolute; top: 4px; left: 4px; transition: transform 0.3s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .toggle-switch.active { background-color: var(--primary-orange); }
+        .toggle-switch.active .toggle-circle { transform: translateX(44px); }
+
+        .empty-chart-box { border: 4px solid #635762; border-radius: 30px; height: 220px; width: 100%; margin-top: 10px; }
+        canvas { width: 100% !important; height: 100% !important; padding: 10px; }
+
+        @media (max-width: 768px) {
+            .dashboard-header { flex-wrap: wrap; gap: 10px; }
+            .user-pill { padding: 4px 12px; flex: 0 1 auto; }
+            .title-card { width: 100%; order: 3; }
+            .dashboard-card { padding: 20px; }
+            .widgets-container { flex-direction: column; }
+            .dark-widget { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <header class="dashboard-header">
+        <div class="user-pill">
+            <div class="user-avatar"></div>
+            <span class="user-greeting-text">Bonjour , &lt;User&gt;</span>
+            <div class="logout-icon" title="Se déconnecter">
+                <svg viewBox="0 0 24 24"><path d="M16 17v-3H9v-4h7V7l5 5-5 5M14 2a2 2 0 012 2v2h-2V4H5v16h9v-2h2v2a2 2 0 01-2 2H5a2 2 0 01-2-2V4a2 2 0 012-2h9z"/></svg>
+            </div>
+        </div>
+        <div class="title-card">
+            <h1>Visualisation et Modification</h1>
+        </div>
+        <div class="logo-container">
+            <img src="smica.png" alt="Logo SMICA" class="logo-image">
+        </div>
+    </header>
+
+    <main class="dashboard-card">
+        <div class="selection-container">
+            <div class="select-group">
+                <label for="select-batiment">Bâtiment :</label>
+                <select id="select-batiment" class="custom-select"></select>
+            </div>
+        </div>
+
+        <div id="dynamic-rooms"></div>
+
+        <div class="empty-chart-box">
+            <canvas id="tempChart"></canvas>
+        </div>
+    </main>
+
+    <footer>© 2026 Groupe GTB - Tous droits réservés</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

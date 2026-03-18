@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - SMICA</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Roboto', 'Segoe UI', sans-serif; }
+        body { background-color: #635762; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; color: #333; }
+        :root { --primary-orange: #b85b31; --bg-white: #ffffff; }
+        .top-header { position: absolute; top: 30px; right: 40px; }
+        .logo-image { width: 140px; height: auto; border-radius: 25px; background-color: white; padding: 10px 20px; }
+        footer { position: absolute; bottom: 20px; right: 40px; color: white; font-size: 0.9rem; font-weight: 500; }
+        
+        .main-container { display: flex; gap: 40px; align-items: center; justify-content: center; width: 90%; max-width: 900px; }
+        .login-card { background-color: var(--bg-white); padding: 50px; border-radius: 40px; width: 100%; max-width: 450px; }
+        .login-card h1 { color: var(--primary-orange); text-align: center; margin-bottom: 30px; font-size: 2.2rem; font-weight: 700; }
+        
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; color: var(--primary-orange); font-weight: 600; margin-bottom: 8px; font-size: 1.1rem; padding-left: 10px; }
+        .input-group input { width: 100%; padding: 15px 20px; border: 1.5px solid var(--primary-orange); border-radius: 25px; font-size: 1rem; outline: none; }
+        
+        .form-footer { display: flex; justify-content: flex-end; margin-top: 25px; }
+        .btn-orange { background-color: var(--primary-orange); color: white; border: none; padding: 12px 35px; font-size: 1.1rem; font-weight: 600; border-radius: 25px; cursor: pointer; transition: 0.3s; }
+        .btn-orange:hover { background-color: #9a4c28; }
+        
+        .help-card { background-color: var(--bg-white); padding: 40px 30px; border-radius: 40px; width: 320px; height: 250px; display: flex; align-items: center; justify-content: center; text-align: center; }
+        .help-card p { color: var(--primary-orange); font-weight: 500; line-height: 1.6; font-size: 1.2rem; }
+
+        @media (max-width: 768px) {
+            body { padding: 100px 0 60px 0; justify-content: flex-start; height: auto; }
+            .top-header { position: absolute; top: 20px; right: 50%; transform: translateX(50%); }
+            .main-container { flex-direction: column; gap: 30px; width: 100%; padding: 0 20px; }
+            .login-card, .help-card { max-width: 380px; width: 100%; }
+            .help-card { height: auto; padding: 30px 20px; }
+            footer { position: relative; bottom: 0; right: 0; margin-top: 40px; text-align: center; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-header">
+        <img src="smica.png" alt="Logo SMICA" class="logo-image">
+    </div>
+
+    <main class="main-container">
+        <div class="login-card">
+            <h1>Connexion</h1>
+            <form onsubmit="forcerConnexion(event)">
+                <div class="input-group">
+                    <label for="username">Identifiant (Email)</label>
+                    <input type="text" id="username">
+                </div>
+                <div class="input-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password">
+                </div>
+                <div class="form-footer">
+                    <button type="submit" class="btn-orange">Valider</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="help-card">
+            <p>Besoin d'aide ou mot<br>de passe oublié ?<br>Contactez le support<br>technique.</p>
+        </div>
+    </main>
+
+    <footer>
+        © 2026 Groupe GTB - Tous droits réservés
+    </footer>
+
+    <script src="app.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajout Batiment - SMICA</title>
+    <style>
+        /* Variables de couleurs identiques */
+        :root {
+            --bg-main: #5d545e;
+            --white: #ffffff;
+            --text-orange: #b8542b;
+            --widget-bg: #605761;
+            --grey-avatar: #e0e0e0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Conteneur principal validé (même grosseur) */
+        .app-container {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            position: relative;
+        }
+
+        /* --- HEADER --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pill {
+            background-color: var(--white);
+            border-radius: 50px;
+            padding: 10px 25px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .user-profile { gap: 15px; }
+
+        .avatar {
+            width: 35px;
+            height: 35px;
+            background-color: var(--grey-avatar);
+            border-radius: 50%;
+        }
+
+        .greeting {
+            color: var(--text-orange);
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .logout-icon {
+            color: var(--text-orange);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .main-title {
+            color: var(--text-orange);
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 12px 80px;
+        }
+
+        .logo-container { padding: 5px 15px; }
+
+        .logo {
+            background-color: var(--bg-main);
+            color: var(--white);
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo span { color: var(--text-orange); }
+
+        /* --- MAIN FORM CARD --- */
+        main {
+            background-color: var(--white);
+            border-radius: 35px;
+            padding: 40px 60px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            min-height: 500px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        /* Formulaire Layout */
+        .form-row {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .flex-large { flex: 1.5; }
+        .flex-small { flex: 1; }
+        
+        /* Centrage de la 3ème ligne */
+        .row-centered {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .row-centered .form-group {
+            width: 80%; /* Largeur du champ Nom */
+        }
+
+        /* Ligne des boutons (Enregistrer / Status) */
+        .action-row {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 80px;
+            margin-top: 20px;
+        }
+
+        /* Styles des Inputs et Labels */
+        label {
+            color: var(--text-orange);
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding-left: 10px;
+        }
+
+        .input-style {
+            background-color: var(--widget-bg);
+            border: none;
+            border-radius: 30px;
+            height: 55px;
+            color: var(--white);
+            font-size: 1.1rem;
+            padding: 0 20px;
+            outline: none;
+            width: 100%;
+        }
+
+        /* Select customisé avec flèche SVG */
+        select.input-style {
+            appearance: none;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg width='14' height='10' viewBox='0 0 14 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L7 8L13 1' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 25px center;
+            background-size: 14px;
+        }
+
+        /* Input fichier customisé (icône upload) */
+        .file-upload-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        .file-upload-wrapper .input-style {
+            padding-right: 60px; /* Espace pour l'icône */
+        }
+        .upload-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: var(--white);
+        }
+
+        /* Bouton et Status */
+        .btn-submit {
+            background-color: var(--text-orange);
+            color: var(--white);
+            border: none;
+            border-radius: 30px;
+            height: 50px;
+            padding: 0 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-submit:hover { opacity: 0.9; }
+
+        .status-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-pill {
+            border: 2px solid var(--text-orange);
+            border-radius: 30px;
+            height: 50px;
+            padding: 0 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .status-icon {
+            cursor: pointer;
+            color: var(--text-orange);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            position: absolute;
+            bottom: -35px;
+            right: 0;
+            color: var(--white);
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        .logo-image {
+            width: 120px; height: auto; border-radius: 20px;
+            background-color: white; padding: 8px 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        /* =========================================
+           RESPONSIVE MOBILE (PAGE AJOUT)
+           ========================================= */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                justify-content: flex-start; /* On commence en haut de l'écran */
+                height: auto;
+            }
+
+            .app-container {
+                gap: 15px;
+            }
+
+            /* --- HEADER : Rangement en 2 lignes --- */
+            header {
+                display: flex;
+                flex-wrap: wrap; /* Permet le retour à la ligne */
+                justify-content: space-between;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .user-profile {
+                order: 1; /* Profil en haut à gauche */
+                padding: 8px 15px;
+            }
+
+            .logo-image {
+                order: 2; /* Logo en haut à droite */
+                width: 90px;
+                padding: 5px 10px;
+            }
+
+            .main-title {
+                order: 3; /* Le titre passe obligatoirement en dessous */
+                width: 100%; /* Prend toute la largeur pour se centrer */
+                justify-content: center; /* Centre le texte horizontalement */
+                padding: 12px;
+                font-size: 1.3rem;
+                margin-top: 5px;
+            }
+
+            /* --- FORMULAIRE : Tout en une seule colonne --- */
+            main {
+                padding: 25px 20px;
+                gap: 20px;
+                width: 100%;
+            }
+
+            .form-row {
+                flex-direction: column; /* Empile les champs */
+                gap: 15px;
+                width: 100%;
+            }
+
+            .flex-large, .flex-small, .row-centered .form-group {
+                width: 100%; /* Chaque champ prend 100% de la carte */
+                flex: none;
+            }
+
+            .input-style {
+                height: 50px; /* Un peu plus compact pour mobile */
+            }
+
+            /* --- ACTIONS : Le bouton et le status sur la même ligne --- */
+            .action-row {
+                flex-direction: row; /* On les garde côte à côte */
+                justify-content: space-between;
+                align-items: flex-end;
+                gap: 10px;
+                margin-top: 10px;
+            }
+
+            .btn-submit {
+                padding: 0 15px;
+                font-size: 1rem;
+                height: 45px;
+                flex: 1; /* Le bouton prend l'espace dispo */
+            }
+
+            .status-container {
+                flex: 1;
+            }
+
+            .status-pill {
+                width: 100%;
+                height: 45px;
+                gap: 15px;
+                padding: 0 10px;
+            }
+
+            footer {
+                position: static;
+                text-align: center;
+                margin-top: 30px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <header>
+            <div class="pill user-profile">
+                <div class="avatar"></div>
+                <div class="greeting">Bonjour , &lt;User&gt;</div>
+                <div class="logout-icon" onclick="window.location.href='index.html'" title="Retour à l'accueil">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="pill main-title">Ajout Batiment</div>
+
+            <img src="smica.png" alt="Logo SMICA" class="logo-image">
+        </header>
+
+        <main>
+            <div class="form-row">
+                <div class="form-group flex-large">
+                    <label>Type de batiment</label>
+                    <select class="input-style">
+                        <option value=""></option>
+                        <option value="bureau">Bureau</option>
+                        <option value="industrie">Industrie</option>
+                    </select>
+                </div>
+                <div class="form-group flex-small">
+                    <label>Photo du batiment</label>
+                    <div class="file-upload-wrapper">
+                        <input type="text" class="input-style" readonly>
+                        <svg class="upload-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group flex-large">
+                    <label>Adresse / Localisation</label>
+                    <input type="text" class="input-style">
+                </div>
+                <div class="form-group flex-small">
+                    <label>Nombre d'étages /Zones</label>
+                    <input type="text" class="input-style">
+                </div>
+            </div>
+
+            <div class="row-centered">
+                <div class="form-group">
+                    <label>Nom du batiment</label>
+                    <input type="text" class="input-style">
+                </div>
+            </div>
+
+            <div class="action-row">
+                <button class="btn-submit" onclick="window.location.href='Visualisation-Modif_ajout.html'">Enregistrer</button>
+                
+                <div class="status-container">
+                    <label>Status</label>
+                    <div class="status-pill">
+                        <svg class="status-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <svg class="status-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            © 2026 Groupe GTB - Tous droits réservés
+        </footer>
+    </div>
+</body>
+<script src="app.js"></script>
+</html>
